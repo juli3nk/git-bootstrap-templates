@@ -1,0 +1,38 @@
+assert_lefthook_installed: true
+skip_lfs: true
+
+pre-commit:
+  parallel: true
+  jobs:
+    - name: lint
+      group:
+        jobs:
+          - glob: "*.md"
+            run: |
+              json=$(printf '%s\n' {files} | jq -R . | jq -s -c .)
+              mise run md-lint -- "$json"
+
+          - glob: "*.json"
+            run: |
+              json=$(printf '%s\n' {files} | jq -R . | jq -s -c .)
+              mise run json-lint -- "$json"
+
+          - glob: "*.go"
+            run: |
+              json=$(printf '%s\n' {files} | jq -R . | jq -s -c .)
+              mise run go-lint -- "$json"
+
+    - name: go-format
+      glob: "*.go"
+      run: |
+        json=$(printf '%s\n' {files} | jq -R . | jq -s -c .)
+        mise run go-fmt -- "$json"
+
+    - name: go-check
+      glob: "{*.go,go.mod,go.sum}"
+      run: mise run go-check
+
+commit-msg:
+  commands:
+    'lint commit message':
+      run: mise run commit-lint -- {1}

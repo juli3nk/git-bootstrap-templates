@@ -1,0 +1,7 @@
+name: <app_name>
+description: >
+  Description goes here
+homepage: ""
+topics:
+  - example
+license: MIT

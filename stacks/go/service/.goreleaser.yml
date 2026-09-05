@@ -1,0 +1,44 @@
+version: 2
+
+project_name: <app_name>
+
+changelog:
+  disable: true
+
+builds:
+  - main: ./cmd/<app_name>
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s
+      - -w
+      - -X github.com/<org_name>/<app_name>/internal/cli.appVersion={{.Version}}
+      - -X github.com/<org_name>/<app_name>/internal/cli.appCommit={{.Commit}}
+      - -X github.com/<org_name>/<app_name>/internal/cli.appBuildDate={{.Date}}
+    goos:
+      - linux
+    goarch:
+      - amd64
+
+kos:
+  - base_image: ghcr.io/juli3nk/static:20260901
+    labels:
+      org.opencontainers.image.title: "{{ .ProjectName }}"
+      org.opencontainers.image.source: "{{ .GitURL }}"
+      org.opencontainers.image.description: <app_description>
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.version: "{{ .Version }}"
+      org.opencontainers.image.revision: "{{ .FullCommit }}"
+      org.opencontainers.image.created: "{{ .Date }}"
+    repositories:
+      - ghcr.io/<org_name>/<app_name>
+    bare: true
+    tags:
+      - latest
+      - "{{ .Tag }}"
+
+archives:
+  - formats: [binary]
+
+release:
+  skip_upload: true
