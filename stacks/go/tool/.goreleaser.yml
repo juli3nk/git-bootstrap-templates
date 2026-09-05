@@ -1,0 +1,21 @@
+version: 2
+
+project_name: <app_name>
+
+changelog:
+  disable: true
+
+release:
+  disable: true
+
+builds:
+  - main: ./cmd/<app_name>
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s
+      - -w
+    goos:
+      - linux
+    goarch:
+      - amd64

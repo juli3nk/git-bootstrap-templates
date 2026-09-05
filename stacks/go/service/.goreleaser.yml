@@ -1,0 +1,41 @@
+version: 2
+
+project_name: <app_name>
+
+changelog:
+  disable: true
+
+release:
+  disable: true
+
+archives:
+  - formats: [binary]
+
+builds:
+  - main: .
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s
+      - -w
+    goos:
+      - linux
+    goarch:
+      - amd64
+
+kos:
+  - base_image: ghcr.io/juli3nk/static:20260901
+    labels:
+      org.opencontainers.image.title: "{{ .ProjectName }}"
+      org.opencontainers.image.source: "{{ .GitURL }}"
+      org.opencontainers.image.description: <app_description>
+      org.opencontainers.image.licenses: MIT
+      org.opencontainers.image.version: "{{ .Version }}"
+      org.opencontainers.image.revision: "{{ .FullCommit }}"
+      org.opencontainers.image.created: "{{ .Date }}"
+    repositories:
+      - ghcr.io/juli3nk/<app_name>
+    bare: true
+    tags:
+      - latest
+      - "{{ .Tag }}"

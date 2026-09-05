@@ -1,0 +1,50 @@
+version: 1
+
+init:
+  commits:
+    - message: 'chore: initial commit'
+      files:
+        - .editorconfig
+        - .gitattributes
+        - .gitignore
+        - README.md
+
+    - message: 'chore(devcontainer): add development container configuration'
+      files:
+        - .devcontainer.json
+        - .devcontainer
+
+    - message: 'chore(commitlint): add commitlint configuration'
+      files:
+        - .commitlintrc.js
+
+    - message: 'chore(lefthook): add lefthook configuration'
+      files:
+        - .lefthook.yml
+
+    - message: 'ci(github): add GitHub workflows'
+      files:
+        - .github/workflows
+
+    - message: 'ci(dagger): setup dagger configuration'
+      files:
+        - dagger.json
+
+    - message: 'chore(release): add semantic-release configuration'
+      files:
+        - .releaserc.yml
+
+    - message: 'chore(go): add golangci-lint configuration'
+      files:
+        - .golangci.yml
+
+    - message: 'chore(goreleaser): add goreleaser configuration'
+      files:
+        - .goreleaser.yml
+
+  tag:
+    name: v0.0.0
+    message: 'Initial release baseline'
+
+app_commit:
+  message: 'feat: bootstrap application'
